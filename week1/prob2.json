@@ -1,0 +1,28 @@
+{
+    "name": "Jang yoojin",
+    "job": "student",
+    "age": 21,
+    "hobby": [
+        "movie",
+        "singing",
+        "walking"
+    ],
+    "course_table": [
+        {
+            "name": "Computer SW system",
+            "id": "CSED211"
+        },
+        {
+            "name": "오토마타 및 형식언어",
+            "id": "CSED341"
+        },
+        {
+            "name": "중영듣말",
+            "id": "GEDU121"
+        },
+        {
+            "name": "설득의 전략과 태도 변화",
+            "id": "SOSC451"
+        }
+    ]
+}
