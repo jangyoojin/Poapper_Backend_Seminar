@@ -1,30 +1,20 @@
 const http = require('http');
 
-let database = {};
+let database = [];
 
 const server = http.createServer((req, res) => {
     const url_parsed = req.url.split('/');
     const method = url_parsed[1];
 
-    console.log(url_parsed);
-    console.log(database)
-
     if (method == 'create') {
+        //create할 data를 적지 않으면 url_parsed[2]를 읽어올 때 오류가 발생
         database.push(url_parsed[2]);
         res.end();
-    } else if (method == 'read') {
-        //push 안 한 index를 읽으려고 하면 error 발생
-        res.write(database[url_parsed[2]]);
-    } else if (method == 'update') {
-        //push 안 한 index를 업데이트 하려고 하면 error 발생
-        database[url_parsed[2]] = url_parsed[3];
-        res.end();
-    } else if (method == 'delete') {
-        database.pop();
     }
-    res.end();
-});
-
-server.listen(8080, () => {
-    console.log('8080 port');
-})
+    else if (method == 'read') {
+        //url_parsed[2]가 입력되지 않으면 오류 발생
+        //database에 url_idx에 해당하는 데이터가 없으면 오류 발생
+        const url_idx = Number(url_parsed[2]);
+        res.write(database[url_idx]);
+    }
+}).listen(8080);

@@ -1,21 +1,9 @@
 const http = require('http');
-const fs = require('fs');
+const date = require('date-utils');
 
-const server = http.createServer((req, res) => {
-    if (req.url == '/') {
-        res.end()
-    }
-    else if (req.url == '/timer') {
-        require('date-utils');
-        let time = new Date();
-        let d = time.toFormat('YYYY-MM-DD HH24:MI:SS');
+d = new Date();
 
-        res.write(d);
-        res.end()
-
-    }
-
-
-}).listen(8080, () => {
-    console.log("server is running on 8080 port.");
-})
+http.createServer((req, res) => {
+    res.write(d.toFormat('YYYY-MM-DD HH24:MI:SS'));
+    res.end();
+}).listen(8080);
