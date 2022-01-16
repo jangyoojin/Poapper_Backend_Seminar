@@ -1,4 +1,5 @@
 .git
 .env
+config.json
 node_modules/*
 make_login/*

@@ -1,0 +1,27 @@
+.word_card {
+  width: 30vw;
+  border: 3px solid black;
+  border-radius: 10px;
+  padding-top: 8vh;
+  padding-bottom: 8vh;
+  margin-top: 5vh;
+  margin-bottom: 3vh;
+}
+
+button {
+  margin-bottom: 3vh;
+  margin-right: 1vw;
+}
+
+fieldset {
+  display: flex;
+  width: 25vw;
+  margin-left: 37.5vw;
+  flex-direction: column;
+}
+
+input {
+  display: flex;
+  width: 24vw;
+  margin-bottom: 10px;
+}
