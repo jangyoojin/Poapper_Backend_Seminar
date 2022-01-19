@@ -10,7 +10,6 @@ function App() {
       <div>
         <header style={{ textAlign: "center" }}>
           <span><h1>이것은 라이트너 암기법을 이용한 단어 암기 사이트이다.</h1></span>
-          <span><button>1</button><button>2</button><button>3</button><button>4</button><button>5</button></span>
         </header>
         <Switch>
           <Route path="/create">

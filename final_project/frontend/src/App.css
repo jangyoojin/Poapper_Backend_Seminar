@@ -13,6 +13,10 @@ button {
   margin-right: 1vw;
 }
 
+.selected {
+  background-color:deepskyblue;
+}
+
 fieldset {
   display: flex;
   width: 25vw;
