@@ -23,9 +23,9 @@ export default function CreateCardView() {
             const formData = new FormData();
             formData.append('image', word);
             formData.append('mean', mean);
-            await axios.post("http://localhost:4000/stages/1/words/images", formData);
+            await axios.post(`${process.env.REACT_APP_API_SERVER}/stages/1/words/images`, formData);
         } else {
-            await axios.post("http://localhost:4000/stages/1/words", { word, mean });
+            await axios.post(`${process.env.REACT_APP_API_SERVER}/stages/1/words`, { word, mean });
         }
 
     };

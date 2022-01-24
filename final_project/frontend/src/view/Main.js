@@ -17,7 +17,7 @@ export default class MainView extends React.Component {
 
 
     getWords = async () => {
-        wordList = await axios.get(`http://localhost:4000/stages/${this.state.stage}/words`);
+        wordList = await axios.get(`${process.env.REACT_APP_API_SERVER}/stages/${this.state.stage}/words`);
         if (wordList.data.length === 0) alert("이 단계에는 더 이상 학습할 단어가 없습니다.");
         else {
             count = 0;
@@ -27,10 +27,10 @@ export default class MainView extends React.Component {
 
     success = async () => {
         //다음 stage에 저장
-        if (this.state.stage !== 5) await axios.post(`http://localhost:4000/stages/${this.state.stage + 1}/words`, { word: this.state.word, mean: this.state.mean });
+        if (this.state.stage !== 5) await axios.post(`${process.env.REACT_APP_API_SERVER}/stages/${this.state.stage + 1}/words`, { word: this.state.word, mean: this.state.mean });
 
         //성공한 단어는 해당 stage에서 삭제
-        await axios.delete(`http://localhost:4000/stages/${this.state.stage}/words`, { params: { word: this.state.word, mean: this.state.mean } });
+        await axios.delete(`${process.env.REACT_APP_API_SERVER}/stages/${this.state.stage}/words`, { params: { word: this.state.word, mean: this.state.mean } });
         wordList.data.splice(count, 1);
         //delete wordList[count];
         //count++;
@@ -63,7 +63,7 @@ export default class MainView extends React.Component {
                         <div className="word_card">
                             {
                                 this.state.word.includes('/images') ?
-                                    <img src={`http://localhost:4000${this.state.word}`} style={{ width: '20vw' }} alt="단어를 표현하는 이미지입니다."></img> : this.state.word
+                                    <img src={`${process.env.REACT_APP_API_SERVER}${this.state.word}`} style={{ width: '20vw' }} alt="단어를 표현하는 이미지입니다."></img> : this.state.word
                             }
                         </div>
                         <div><button onClick={() => { this.setState({ isQuizMode: false }) }}>정답 확인하기</button></div>
