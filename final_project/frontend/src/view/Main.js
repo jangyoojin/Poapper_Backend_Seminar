@@ -13,7 +13,6 @@ export default class MainView extends React.Component {
             word: '',
             mean: '',
         };
-        this.getWords();
     };
 
 
@@ -37,7 +36,7 @@ export default class MainView extends React.Component {
         //count++;
 
         //해당 stage에 더이상 단어가 없다면 경고창 띄우기
-        if (wordList.data.length === 0) alert("이 단계에는 더 이상 학습할 단어가 없습니다.");
+        if (wordList.data.length === 0) { alert("이 단계에는 더 이상 학습할 단어가 없습니다."); this.setState({ word: '' }) }
         else {
             if (count >= wordList.data.length) count = 0;
             this.setState({ isQuizMode: true, word: wordList.data[count].word, mean: wordList.data[count].mean });
@@ -61,7 +60,12 @@ export default class MainView extends React.Component {
                 <div><button onClick={() => { this.getWords(); }}>단어 불러오기</button></div>
                 {
                     this.state.isQuizMode ? <>
-                        <div className="word_card">{this.state.word}</div>
+                        <div className="word_card">
+                            {
+                                this.state.word.includes('/images') ?
+                                    <img src={`http://localhost:4000${this.state.word}`} style={{ width: '20vw' }} alt="단어를 표현하는 이미지입니다."></img> : this.state.word
+                            }
+                        </div>
                         <div><button onClick={() => { this.setState({ isQuizMode: false }) }}>정답 확인하기</button></div>
                     </> : <>
                         <div className="word_card">{this.state.mean}</div>

@@ -1,12 +1,24 @@
 const express = require("express");
+const multer = require("multer");
 const cors = require("cors");
 const models = require("./models");
+const uploader = multer({
+    storage: multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, 'uploads/');
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        }
+    })
+});
 let sequelize = models.sequelize;
 sequelize.sync();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use('/images', express.static('uploads'));
 
 //새로운 단어 카드 등록 #1
 // app.post("/create", (req, res) => {
@@ -28,6 +40,15 @@ app.get("/stages/:id/words", async (req, res) => {
     res.send(words);
 })
 
+// image create
+app.post("/stages/1/words/images", uploader.single('image'), async (req, res) => {
+    const Stage = "Stage1";
+    models[Stage].create({
+        word: '/images/' + req.file.filename,
+        mean: req.body.mean
+    });
+    res.send("Success posting");
+})
 
 //단어 성공
 //맞춘 단어를 다음 stage에 등록하는 API
