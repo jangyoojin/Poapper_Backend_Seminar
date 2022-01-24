@@ -9,7 +9,7 @@ export default class MainView extends React.Component {
         super(props);
         this.state = {
             stage: 1,
-            isQuizisQuizMode: true,
+            isQuizMode: true,
             word: '',
             mean: '',
         };
@@ -19,8 +19,11 @@ export default class MainView extends React.Component {
 
     getWords = async () => {
         wordList = await axios.get(`http://localhost:4000/stages/${this.state.stage}/words`);
-        count = 0;
-        this.setState({ word: wordList.data[count].word, mean: wordList.data[count].mean })
+        if (wordList.data.length === 0) alert("이 단계에는 더 이상 학습할 단어가 없습니다.");
+        else {
+            count = 0;
+            this.setState({ word: wordList.data[count].word, mean: wordList.data[count].mean })
+        }
     }
 
     success = async () => {
@@ -35,34 +38,37 @@ export default class MainView extends React.Component {
 
         //해당 stage에 더이상 단어가 없다면 경고창 띄우기
         if (wordList.data.length === 0) alert("이 단계에는 더 이상 학습할 단어가 없습니다.");
-        if (count >= wordList.data.length) count = 0;
-        this.setState({ isQuizMode: 0, word: wordList.data[count].word, mean: wordList.data[count].mean });
+        else {
+            if (count >= wordList.data.length) count = 0;
+            this.setState({ isQuizMode: true, word: wordList.data[count].word, mean: wordList.data[count].mean });
+        }
     }
 
     fail = async () => {
         count++;
         if (count >= wordList.data.length) count = 0;
-        await this.setState({ isQuizMode: 0, word: wordList.data[count].word, mean: wordList.data[count].mean });
+        await this.setState({ isQuizMode: true, word: wordList.data[count].word, mean: wordList.data[count].mean });
     }
 
     render() {
         return (
             <center>
-                <span><button className={this.state.stage === 1 ? "selected" : ""} onClick={() => { this.setState({ stage: 1, isQuizMode: 0 }); this.getWords(); }}>1</button>
-                    <button className={this.state.stage === 2 ? "selected" : ""} onClick={() => { this.setState({ stage: 2, isQuizMode: 0 }); this.getWords(); }}>2</button>
-                    <button className={this.state.stage === 3 ? "selected" : ""} onClick={() => { this.setState({ stage: 3, isQuizMode: 0 }); this.getWords(); }}>3</button>
-                    <button className={this.state.stage === 4 ? "selected" : ""} onClick={() => { this.setState({ stage: 4, isQuizMode: 0 }); this.getWords(); }}>4</button>
-                    <button className={this.state.stage === 5 ? "selected" : ""} onClick={() => { this.setState({ stage: 5, isQuizMode: 0 }); this.getWords(); }}>5</button></span>
+                <span><button className={this.state.stage === 1 ? "selected" : ""} onClick={() => { this.setState({ stage: 1, isQuizMode: true }); }}>1</button>
+                    <button className={this.state.stage === 2 ? "selected" : ""} onClick={() => { this.setState({ stage: 2, isQuizMode: true }); }}>2</button>
+                    <button className={this.state.stage === 3 ? "selected" : ""} onClick={() => { this.setState({ stage: 3, isQuizMode: true }); }}>3</button>
+                    <button className={this.state.stage === 4 ? "selected" : ""} onClick={() => { this.setState({ stage: 4, isQuizMode: true }); }}>4</button>
+                    <button className={this.state.stage === 5 ? "selected" : ""} onClick={() => { this.setState({ stage: 5, isQuizMode: true }); }}>5</button></span>
+                <div><button onClick={() => { this.getWords(); }}>단어 불러오기</button></div>
                 {
                     this.state.isQuizMode ? <>
+                        <div className="word_card">{this.state.word}</div>
+                        <div><button onClick={() => { this.setState({ isQuizMode: false }) }}>정답 확인하기</button></div>
+                    </> : <>
                         <div className="word_card">{this.state.mean}</div>
                         <div>
                             <button onClick={() => { this.success() }}>성공</button>
                             <button onClick={() => { this.fail() }}>실패</button>
                         </div>
-                    </> : <>
-                        <div className="word_card">{this.state.word}</div>
-                        <div><button onClick={() => { this.setState({ isQuizMode: 1 }) }}>정답 확인하기</button></div>
                     </>
                 }
 
