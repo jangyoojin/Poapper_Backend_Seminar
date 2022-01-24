@@ -17,7 +17,11 @@ sequelize.sync();
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: ["Access-Control-Allow-Headers", "Content-Type"]
+}));
 app.use('/images', express.static('uploads'));
 
 //새로운 단어 카드 등록 #1
